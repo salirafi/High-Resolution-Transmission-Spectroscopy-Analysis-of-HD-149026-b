@@ -31,7 +31,7 @@ os.environ['pRT_input_data_path'] = 'relative/path/to/input_data'
 
 Please see the [documentation](https://petitradtrans.readthedocs.io/en/latest/content/installation.html) for details. 
 
-In this repository, I provide the H2O opacity from HITEMP 2010 and POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)) under the `input_data/H2O_POKAZATEL_cust/` folder (already in petitRADTRANS format), as well as for HCN opacity already provided in the petitRADTRANS documentation.
+In this repository, I provide the H2O opacity from HITEMP 2010 and POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)) already in petitRADTRANS format, as well as for HCN opacity already provided in the petitRADTRANS documentation, under the `input_data/opacities/lines/line_by_line/` folder.
 
 ## Steps of Main Analysis
 
