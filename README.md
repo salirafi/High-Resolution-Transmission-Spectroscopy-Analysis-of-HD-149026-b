@@ -1,7 +1,7 @@
 # High-Resolution-Spectroscopy-Analysis-of-HD-149026-b
 This repository contains coding scripts used in Rafi+ (in prep.), which are used to analyze high-resolution spectroscopy (HRS) data of the hot Saturn HD 149026 b with CARMENES.
 
-The HRS data is taken from the publicly available database of CARMENES that can be accessed from [here](http://caha.sdc.cab.inta-csic.es/calto/jsp/searchform.jsp). For convenience, the near-infrared (NIR) data (in FITS files) from fiber A, whic is used in the analysis, is provided in this repository under `data/spectrum/` folder. This is for **transmission spectroscopy** data only.
+The HRS data is taken from the publicly available database of CARMENES that can be accessed from [here](http://caha.sdc.cab.inta-csic.es/calto/jsp/searchform.jsp). For convenience, the near-infrared (NIR) data (in FITS files) from fiber A, which is used in the analysis, is provided in this repository under `data/spectrum/` folder. This is for **transmission spectroscopy** data only.
 
 ## Dependencies
 
@@ -31,7 +31,7 @@ os.environ['pRT_input_data_path'] = 'relative/path/to/input_data'
 
 Please see the [documentation](https://petitradtrans.readthedocs.io/en/latest/content/installation.html) for details. 
 
-In this repository, I provide the H2O opacity from HITEMP 2010 and POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)) already in petitRADTRANS format, as well as for HCN opacity already provided in the petitRADTRANS documentation, under the `input_data/opacities/lines/line_by_line/` folder.
+For this analysis, I used the H2O opacity from HITEMP 2010 and POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)), as well as for HCN opacity already provided in the petitRADTRANS documentation. The computed transmission spectrum templates (specifically for HD 149026 b's assumed atmospheric condition) are provided under the `models/` folder. It is up to the users if they want to compute models on their own using their own opacity tables. Regardless, here I provide the necessary materials to recreate the analysis in Rafi+ (in prep.).
 
 ## Steps of Main Analysis
 
@@ -84,7 +84,7 @@ In Rafi+ (in prep.), we tried to separate the transit into two halves to check w
 
 The code is a just-shift-and-enter-code, meaning the user can simply run the code without changing or adjusting anything, with the following sequence: 
 1. Run `data_reduction_original.ipynb`. It will export the clean data (after SysRem) to `data/hdf5/`.
-2. Run `model_generation.ipynb`. It will export the model spectra to `models/`.
+2. Run `model_generation.ipynb`. It will export the model spectra to `models/`. This step can be skipped if the users want to use the already computed models provided in the `models/` folder.
 3. Run `cross_correlation.ipynb` to see the resulting S/N maps.
 4. Run `pre_processing_2.ipynb` to retrieve and constrain the orbital and systemic velocity values.
 
