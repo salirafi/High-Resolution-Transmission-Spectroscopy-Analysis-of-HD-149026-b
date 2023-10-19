@@ -55,7 +55,7 @@ Knowing $RV_s$ (stellar RV), $K_s$ (stellar orbital velocity), and $\phi$ (orbit
 
 The corresponding script for this step is `model_generation.ipynb`. 
 
-The code uses `pyfastchem` to calculate chemical equilibrium abundances and `petitRADTRANS` to calculate the model spectrum (single and multiple species). In addition, the code can also calculate simplified constant species abundances typically used when prior knowledge of the atmospheric abundances is not known. Although `petitRADTRANS` can compute both transmission and emission spectrum, this code is written only for transmission.
+The code uses `pyfastchem` to calculate chemical equilibrium abundances and `petitRADTRANS` to calculate the model spectrum (single and multiple trace species). In addition, the code can also calculate simplified constant species abundances typically used when prior knowledge of the atmospheric abundances is not known. Although `petitRADTRANS` can compute both transmission and emission spectrum, this code is written only for transmission.
 
 In calculating the transmission spectrum, the code will first use `petitRADTRANS` to compute the spectrum, then broaden it to both the FWHM of the instrument resolution and the planetary rotational motion (assuming circular orbit with $v\sin{i}=2\pi r/P$). Both broadening functions are given in `function.py`. When normalization is required, the code will use high-pass (also given in `function.py`) and Gaussian filter to compute the pseudo-continuum, then either divide or subtract the continuum from the model (depending on the user's request).
 
@@ -88,4 +88,4 @@ The code is a just-shift-and-enter-code, meaning the user can simply run the cod
 3. Run `cross_correlation.ipynb` to see the resulting S/N maps.
 4. Run `pre_processing_2.ipynb` to retrieve and constrain the orbital and systemic velocity values.
 
-Of course, the parameter values (e.g., in the data reduction, model generation, or cross-correlation) are tunable and they can be changed by the user.
+Indeed, the parameter values (e.g., in the data reduction, model generation, or cross-correlation) are tunable and they can be changed by the users.
