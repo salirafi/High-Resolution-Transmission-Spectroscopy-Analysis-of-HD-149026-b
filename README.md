@@ -1,7 +1,7 @@
-# High-Resolution-Spectroscopy-Analysis-for-HD-149026-b
+# High-Resolution-Spectroscopy-Analysis-of-HD-149026-b
 This repository contains coding scripts used in Rafi+ (in prep.), which are used to analyze high-resolution spectroscopy (HRS) data of the hot Saturn HD 149026 b with CARMENES.
 
-The HRS data used is taken from the publicly available database of CARMENES that can be accessed from [here](http://caha.sdc.cab.inta-csic.es/calto/jsp/searchform.jsp). For convenience, the near-infrared (NIR) data (in FITS files) from fiber A is provided in this repository under `data/spectrum/` folder. This is for **transmission spectroscopy** data only.
+The HRS data is taken from the publicly available database of CARMENES that can be accessed from [here](http://caha.sdc.cab.inta-csic.es/calto/jsp/searchform.jsp). For convenience, the near-infrared (NIR) data (in FITS files) from fiber A, whic is used in the analysis, is provided in this repository under `data/spectrum/` folder. This is for **transmission spectroscopy** data only.
 
 ## Dependencies
 
@@ -31,7 +31,7 @@ os.environ['pRT_input_data_path'] = 'relative/path/to/input_data'
 
 Please see the [documentation](https://petitradtrans.readthedocs.io/en/latest/content/installation.html) for details. 
 
-In this repository, I provide the opacity (in petitRADTRANS format) for H2O from POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)) under the `input_data/H2O_POKAZATEL_cust/` folder.
+In this repository, I provide the H2O opacity from HITEMP 2010 and POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)) under the `input_data/H2O_POKAZATEL_cust/` folder (already in petitRADTRANS format), as well as for HCN opacity already provided in the petitRADTRANS documentation.
 
 ## Steps of Main Analysis
 
@@ -70,7 +70,7 @@ where subscript $p$ is for the planet.
 
 The corresponding script for this step is `pre_processing_2.ipynb`.
 
-To perform retrieval analysis, where an exact match between data and model is favorable, pre-processing the model is therefore necessary. This is to account for the fact that SysRem typically alters the planet signal, resulting in a planetary spectrum that deviates significantly from the model ([Gibson+ 2022](https://academic.oup.com/mnras/article/512/3/4618/6510825)). Hence, pre-processing the model aims to mimic this SysRem effect in the model spectrum. After pre-processing, the script will perform retrieval analysis using a simple grid search to find the best-fit orbital and systemic velocity (which in this case is $V_{rest}$).
+To perform retrieval analysis, where an exact match between data and model is favorable, pre-processing the model is therefore necessary. This is to account for the fact that SysRem typically alters the planet signal, resulting in a planetary spectrum that deviates significantly from the model ([Gibson+ 2022](https://academic.oup.com/mnras/article/512/3/4618/6510825)). Pre-processing the model aims to mimic this SysRem effect in the model spectrum. After pre-processing, the script will perform retrieval analysis using a simple grid search to find the best-fit orbital and systemic velocity (which in this case is $V_{rest}$).
 
 ## Additional Analysis
 
