@@ -78,6 +78,8 @@ Several other analyses to confirm whether the signal is real (in the case where 
 
 On the other hand, another test is performed to see how different reduction parameter values, particularly $\eta$ (it sets how wide the line wings around strong telluric lines will be masked), can affect the resulting signal S/N. This test can be found in `data_reduction_original_eta.ipynb` and `cross_correlation_eta.ipynb`.
 
+In Rafi+ (in prep.), we tried to separate the transit into two halves to see whether the red-shifted $V_{rest}$ H2O signal that we found originated solely from the first half of the transit where H2O flows from the night-side to the day-side along the planet's leading terminator. The script for this analysis can be found in `sanity_check_frame.ipynb`.
+
 ## How to Use
 
 Basically, the code is a just-shift-and-enter-code, meaning the user can just simply run the code without changing or adjusting anything, with the following sequence: 
