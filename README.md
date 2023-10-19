@@ -41,11 +41,11 @@ The analysis is divided into four main steps:
 
 The corresponding script for this step is `data_reduction_original.ipynb`. 
 
-The code consists of data selection (masking low S/N frames and spectral orders), sky emission removal with sky emission templates from [Oliva+ (2015)](https://ui.adsabs.harvard.edu/abs/2015A%26A...581A..47O/abstract) and [Rousselot+ (2000)](https://ui.adsabs.harvard.edu/abs/2000A%26A...354.1134R/abstract), residual blaze correction, and outliers removal. In addition, a wavelength stability check is also performed. However, this case, in particular, does not need any additional wavelength correction since the wavelength solution is already stable, hence the code does not consist algorithm to correct the wavelength solution.
+The code consists of data selection (masking low S/N frames and spectral orders), sky emission removal with sky emission templates from [Oliva+ (2015)](https://ui.adsabs.harvard.edu/abs/2015A%26A...581A..47O/abstract) and [Rousselot+ (2000)](https://ui.adsabs.harvard.edu/abs/2000A%26A...354.1134R/abstract), residual blaze correction, and outliers removal. In addition, a wavelength stability check is also performed. However, this case, in particular, does not need any additional wavelength correction since the wavelength solution is already stable, hence the code does not consist of an algorithm to correct the wavelength solution.
 
 The code also uses the `batman` package [(Kreidberg 2015)](https://ui.adsabs.harvard.edu/abs/2015PASP..127.1161K/abstract) to build the light curve model for the corresponding transit of this planet, which will act as a weight for each frame when we cross-correlate them with the model.
 
-Finally, to remove the dominating stellar and telluric lines, infamously known for being major obstacles in HRS studies for exoplanet atmospheres, the code uses SysRem algorithm described in [Tamuz+ (2005)](https://ui.adsabs.harvard.edu/abs/2005MNRAS.356.1466T/abstract) which will fit and correct any systematics present in the data. After passing the data into SysRem, the 'clean' data is obtained and ready to be cross-correlated.
+Finally, to remove the dominating stellar and telluric lines, infamously known for being major obstacles in HRS studies for exoplanet atmospheres, the code uses the SysRem algorithm described in [Tamuz+ (2005)](https://ui.adsabs.harvard.edu/abs/2005MNRAS.356.1466T/abstract) which will fit and correct any systematics present in the data. After passing the data into SysRem, the 'clean' data is obtained and ready to be cross-correlated.
 
 To compute the systemic velocity $V_{sys}$ of the system, the radial velocity (RV) value of the star is also calculated. The circular radial velocity equation is given by:
 $$RV_s(\phi)=K_s\sin(2\pi\phi)+V_{sys}$$
@@ -55,7 +55,7 @@ Knowing $RV_s$ (stellar RV), $K_s$ (stellar orbital velocity), and $\phi$ (orbit
 
 The corresponding script for this step is `model_generation.ipynb`. 
 
-The code uses `pyfastchem` to calculate chemical equilibrium abundances, and then `petitRADTRANS` to calculate the model spectrum (both single and multiple species). In addition, the code can also calculate simplified constant species abundances typically used when prior knowledge of the atmospheric abundances is not known. Although `petitRADTRANS` can compute both transmission and emission spectrum, this code is written only for transmission.
+The code uses `pyfastchem` to calculate chemical equilibrium abundances and `petitRADTRANS` to calculate the model spectrum (single and multiple species). In addition, the code can also calculate simplified constant species abundances typically used when prior knowledge of the atmospheric abundances is not known. Although `petitRADTRANS` can compute both transmission and emission spectrum, this code is written only for transmission.
 
 In calculating the transmission spectrum, the code will first use `petitRADTRANS` to compute the spectrum, then broaden it to both the FWHM of the instrument resolution and the planetary rotational motion (assuming circular orbit with $v\sin{i}=2\pi r/P$). Both broadening functions are given in `function.py`. When normalization is required, the code will use high-pass (also given in `function.py`) and Gaussian filter to compute the pseudo-continuum, then either divide or subtract the continuum from the model (depending on the user's request).
 
@@ -74,7 +74,7 @@ To perform retrieval analysis, where an exact match between data and model is fa
 
 ## Additional Analysis
 
-Several other analyses to confirm whether the signal is real (in the case where signal S/N is low, such as this one) are also performed. These are Welch-t test and injection test. The former can be found in `welch-t.ipynb` whilst the latter can be found in `cross_correlation.ipynb`. Please see Rafi+ (in prep.) for details about these tests. Additionally, to check whether telluric lines may somehow contribute to the observed (water) signal, cross-correlation between the SysRem residuals and telluric model template is also performed. The script is given in `cross_correlation_telluric.ipynb`.
+Several other analyses to confirm whether the signal is real (in the case where signal S/N is low, such as this one) are also performed. These are the Welch-t test and injection test. The former can be found in `welch-t.ipynb` whilst the latter can be found in `cross_correlation.ipynb`. Please see Rafi+ (in prep.) for details about these tests. Additionally, to check whether telluric lines may somehow contribute to the observed (water) signal, cross-correlation between the SysRem residuals and telluric model template is also performed. The script is given in `cross_correlation_telluric.ipynb`.
 
 On the other hand, another test is performed to see how different reduction parameter values, particularly $\eta$ (it sets how wide the line wings around strong telluric lines will be masked), can affect the resulting signal S/N. This test can be found in `data_reduction_original_eta.ipynb` and `cross_correlation_eta.ipynb`.
 
@@ -82,12 +82,10 @@ In Rafi+ (in prep.), we tried to separate the transit into two halves to check w
 
 ## How to Use
 
-Basically, the code is a just-shift-and-enter-code, meaning the user can just simply run the code without changing or adjusting anything, with the following sequence: 
+The code is a just-shift-and-enter-code, meaning the user can simply run the code without changing or adjusting anything, with the following sequence: 
 1. Run `data_reduction_original.ipynb`. It will export the clean data (after SysRem) to `data/hdf5/`.
 2. Run `model_generation.ipynb`. It will export the model spectra to `models/`.
 3. Run `cross_correlation.ipynb` to see the resulting S/N maps.
 4. Run `pre_processing_2.ipynb` to retrieve and constrain the orbital and systemic velocity values.
 
 Of course, the parameter values (e.g., in the data reduction, model generation, or cross-correlation) are tunable and they can be changed by the user.
-
-
