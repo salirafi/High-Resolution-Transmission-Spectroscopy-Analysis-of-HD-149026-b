@@ -149,6 +149,33 @@ def rotation_kernel(vsini, u1, u2, sampling_step):
 
     return x_sample, kernel
 
+# def rotation_kernel_transm(R_s, R_p, P_rot, u1, u2, sampling_step):
+
+#     """
+#     Solid body rotational kernel evenly sampled in velocity based on equation (55) in Kawahara et al. 2022,
+#        Gray 2005, and Exojax's exojax.response.rotkernel. 
+#        The input should be evenly sampled in velocity or log wavenumber.
+#        This function assumes quadratic limb darkening model with coefficients u1 and u2.
+#     Args:
+#         vsini        : projected rotational velocity (km/s)
+#         u1           : limb-darkening coefficient 1
+#         u2           : limb-darkening coefficient 2      
+#         sampling_step: sampling step of the input (km/s)
+#     Return:
+#         velocity of the kernel, rotational kernel
+#     """ 
+
+#     # kernel width in km/s
+#     dx = R_p/(50*R_s)
+#     vsini = 2*np.pi*np.arange(-1,1,dx)*R_s/P_rot
+
+#     kernel = np.exp(-0.5*()/(3.73/(2*np.sqrt(2*np.log(2))))) # accounting NaN values caused by the square root
+    
+#     # normalising the kernel
+#     kernel /= np.nansum(kernel) # normalise by the sum of the kernel because the sum of area inside the kernel has to be 1 (since the kernel is a PDF) --> preserve the line shape and depth
+
+#     return x_sample, kernel
+
 def rotation_flux(wvnumber, flux, vsini, u1, u2):
     """Convolve a rigid body rotational kernel to a evenly sampled in velocity
 
@@ -172,7 +199,7 @@ def rotation_flux(wvnumber, flux, vsini, u1, u2):
     sampling_step = np.mean(
         (1 / wvnumber[:-1] - 1 / wvnumber[1:]) / (1 / wvnumber[1:]) * c) # sampling step of the input in km/s
     
-    vel_sample, norm_rot = rotation_kernel (vsini,u1,u2,sampling_step)
+    vel_sample, norm_rot = rotation_kernel(vsini,u1,u2,sampling_step)
 
     # handling of the edges
     nf = len(flux)
@@ -180,3 +207,35 @@ def rotation_flux(wvnumber, flux, vsini, u1, u2):
 
     return np.convolve(flux, norm_rot, mode="same")[nf:-nf]
 
+def solve_E(M, e, tol=1e-12, max_iter=1000):
+    """
+    Solves for E in the equation M = E - e*sin(E) using the Newton-Raphson method.
+    """
+    # Initial guess for E
+    E = M
+    
+    # Iterate using the Newton-Raphson method until convergence or max_iter is reached
+    for i in range(max_iter):
+        f = E - e*np.sin(E) - M
+        df = 1 - e*np.cos(E)
+        dE = -f / df
+        E += dE
+        
+        # Check for convergence
+        if np.all(np.abs(dE) < tol):
+            break
+    
+    return E
+
+def find_nearest(array, value):
+    return (np.abs(array - value)).argmin()
+
+def split_matrix_for_dot(a,b,split):
+    b_split = np.empty((int(b.shape[1]/split),b.shape[0],split))
+    b_split[0] = b[:,1*split-split:1*split]
+    a_final = np.dot(a,b_split[0])
+    for i in range(1+1,int(b.shape[1]/split)+1,1):
+        b_split[i-1] = b[:,i*split-split:i*split]
+        a_dot = np.dot(a,b_split[i-1])
+        a_final = np.concatenate((a_final,a_dot),axis=1)
+    return a_final
