@@ -90,4 +90,4 @@ The code is a just-shift-and-enter-code, meaning the user can simply run the cod
 
 Indeed, the parameter values (e.g., in the data reduction, model generation, or cross-correlation) are tunable and they can be changed by the users.
 
-Please feel free to contact me (Rafi) via email at salirafi8@gmail.com if you have any questions or send an issue in the repo!
+Please feel free to contact me (Rafi) via email at salirafi8@gmail.com if you have any questions or post an issue in the repo!
