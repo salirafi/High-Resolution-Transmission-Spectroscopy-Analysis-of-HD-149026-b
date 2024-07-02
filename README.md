@@ -1,5 +1,5 @@
 # High-Resolution-Spectroscopy-Analysis-of-HD-149026-b
-This repository contains coding scripts used in Rafi+ (2024) (accepted to AJ), which are used to analyze high-resolution spectroscopy (HRS) data of the hot Saturn HD 149026 b with CARMENES/NIR.
+This repository contains coding scripts used in [Rafi+ (2024)](https://arxiv.org/abs/2407.01266) (accepted to AJ), which are used to analyze high-resolution spectroscopy (HRS) data of the hot Saturn HD 149026 b with CARMENES/NIR.
 
 The HRS data is taken from the publicly available database of CARMENES that can be accessed from [here](http://caha.sdc.cab.inta-csic.es/calto/jsp/searchform.jsp). For convenience, the near-infrared (NIR) data (in FITS files) from fiber A, which is used in the analysis, is provided in this repository under `data/spectrum/` folder. This is for **transmission spectroscopy** data only.
 
@@ -31,7 +31,7 @@ os.environ['pRT_input_data_path'] = 'relative/path/to/input_data'
 
 Please see the [documentation](https://petitradtrans.readthedocs.io/en/latest/content/installation.html) for details. 
 
-For this analysis, I used the H2O opacity from HITEMP 2010 and POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)), as well as for HCN opacity already provided in the petitRADTRANS documentation. The computed transmission spectrum templates (specifically for HD 149026 b's assumed atmospheric condition) are provided under the `models/` folder. It is up to the users if they want to compute models on their own using their own opacity tables. Regardless, here I provide the necessary materials to recreate the analysis in Rafi+ (in prep.).
+For this analysis, I used the H2O opacity from HITEMP 2010 and POKAZATEL line list ([Polyansky+ 2018](https://ui.adsabs.harvard.edu/abs/2018MNRAS.480.2597P/abstract)) computed using HELIOS-K ([Grimm+ 2021](https://ui.adsabs.harvard.edu/abs/2021ApJS..253...30G/abstract)), as well as for HCN opacity already provided in the petitRADTRANS documentation. The computed transmission spectrum templates (specifically for HD 149026 b's assumed atmospheric condition) are provided under the `models/` folder. It is up to the users if they want to compute models on their own using their own opacity tables. Regardless, here I provide the necessary materials to recreate the analysis in [Rafi+ (2024)](https://arxiv.org/abs/2407.01266).
 
 ## Steps of Main Analysis
 
@@ -70,15 +70,15 @@ where subscript $p$ is for the planet. $V_{bary}$ is the barycentric velocity du
 
 The corresponding script for this step is `pre_processing.ipynb`.
 
-To perform retrieval analysis, where an exact match between data and model is favorable, pre-processing the model is therefore necessary. This is to account for the fact that SysRem typically alters the planet signal, resulting in a planetary spectrum that deviates significantly from the model ([Gibson+ 2022](https://academic.oup.com/mnras/article/512/3/4618/6510825)). Pre-processing the model aims to mimic this SysRem effect in the model spectrum. After pre-processing, the script will perform retrieval analysis using a simple grid search to find the best-fit orbital and systemic velocity (which in this case is $V_{rest}$). To reproduce the figure comparing likelihood between including and excluding frame #44 (Figure 14 in Rafi+ 2024), use `plot_pre_processing.ipynb` script.
+To perform retrieval analysis, where an exact match between data and model is favorable, pre-processing the model is therefore necessary. This is to account for the fact that SysRem typically alters the planet signal, resulting in a planetary spectrum that deviates significantly from the model ([Gibson+ 2022](https://academic.oup.com/mnras/article/512/3/4618/6510825)). Pre-processing the model aims to mimic this SysRem effect in the model spectrum. After pre-processing, the script will perform retrieval analysis using a simple grid search to find the best-fit orbital and systemic velocity (which in this case is $V_{rest}$). To reproduce the figure comparing likelihood between including and excluding frame #44 (Figure 14 in [Rafi+ 2024](https://arxiv.org/abs/2407.01266)), use `plot_pre_processing.ipynb` script.
 
 ## Additional Analysis
 
-Several other analyses to confirm whether the signal is real (in the case where signal S/N is low, such as this one) are also performed. These are the Welch-t test and injection test. The former can be found in `welch-t.ipynb` whilst the latter can be found in `cross_correlation.ipynb`. Please see Rafi+ (2024) for details about these tests. Additionally, to check whether telluric lines may somehow contribute to the observed (water) signal, cross-correlation between the SysRem residuals and telluric model template is also performed. The script is given in `cross_correlation_telluric.ipynb`.
+Several other analyses to confirm whether the signal is real (in the case where signal S/N is low, such as this one) are also performed. These are the Welch-t test and injection test. The former can be found in `welch-t.ipynb` whilst the latter can be found in `cross_correlation.ipynb`. Please see [Rafi+ (2024)](https://arxiv.org/abs/2407.01266) for details about these tests. Additionally, to check whether telluric lines may somehow contribute to the observed (water) signal, cross-correlation between the SysRem residuals and telluric model template is also performed. The script is given in `cross_correlation_telluric.ipynb`.
 
 On the other hand, another test is performed to see how different reduction parameter values, particularly $\eta$ (it sets how wide the line wings around strong telluric lines will be masked), can affect the resulting signal S/N. This test can be found in `data_reduction_original_eta.ipynb` and `cross_correlation_eta.ipynb`.
 
-In Rafi+ (2024), we tried to separate the transit into two halves to check whether the red-shifted $V_{rest}$ of the H2O signal that we found originated solely from the first half of the transit where H2O flows from the night-side to the day-side along the planet's leading terminator. The script for this analysis can be found in `sanity_check_frame.ipynb`.
+In [Rafi+ (2024)](https://arxiv.org/abs/2407.01266), we tried to separate the transit into two halves to check whether the red-shifted $V_{rest}$ of the H2O signal that we found originated solely from the first half of the transit where H2O flows from the night-side to the day-side along the planet's leading terminator. The script for this analysis can be found in `sanity_check_frame.ipynb`.
 
 ## How to Use
 
